@@ -1,4 +1,6 @@
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Scanner;
 
 public class Main {
@@ -7,17 +9,21 @@ public class Main {
         String taskHeading = scanner.next();
         System.out.print("Введите описание задачи: ");
         String taskDescription = scanner.next();
+        System.out.print("Введите дату в формате yyyy-mm-dd HH:MM  - ");
+        LocalDate dateTask = LocalDate.parse(scanner.next());
+        LocalTime timeTask = LocalTime.parse(scanner.next());
+        LocalDateTime date = LocalDateTime.of(dateTask, timeTask);
         printMenuTaskType();
         System.out.print("Выберите тип задачи (нужный пункт меню): ");
-        String taskType = null;
+        TypeTask taskType = null;
         if (scanner.hasNextInt()) {
             int menuTaskType = scanner.nextInt();
             switch (menuTaskType) {
                 case 1:
-                    taskType = "рабочая";
+                    taskType = TypeTask.working;
                     break;
                 case 2:
-                    taskType = "личная";
+                    taskType = TypeTask.personal;
                     break;
                 case 0:
                     break;
@@ -29,33 +35,33 @@ public class Main {
         }
         printMenuTaskRepeat();
         System.out.print("Выберите регулярность повтора задачи (нужный пункт меню): ");
-        String taskRepeat;
+        Repeat taskRepeat;
         if (scanner.hasNextInt()) {
             int menuTaskRepeat = scanner.nextInt();
             switch (menuTaskRepeat) {
                 case 1:
-                    taskRepeat = "однократно";
-                    Tasks task = new TasksSingle(taskHeading, taskDescription, taskType, taskRepeat);
+                    taskRepeat = Repeat.once;
+                    Task task = new TaskSingle(taskHeading, taskDescription, taskType, taskRepeat, date);
                     dailyPlanner.addTaskToDailyPlanner(task);
                     break;
                 case 2:
-                    taskRepeat = "ежедневно";
-                    Tasks task2 = new TasksDaily(taskHeading, taskDescription, taskType, taskRepeat);
+                    taskRepeat = Repeat.daily;
+                    Task task2 = new TaskDaily(taskHeading, taskDescription, taskType, taskRepeat, date);
                     dailyPlanner.addTaskToDailyPlanner(task2);
                     break;
                 case 3:
-                    taskRepeat = "еженедельно";
-                    Tasks task3 = new TasksWeekly(taskHeading, taskDescription, taskType, taskRepeat);
+                    taskRepeat = Repeat.weekly;
+                    Task task3 = new TaskWeekly(taskHeading, taskDescription, taskType, taskRepeat, date);
                     dailyPlanner.addTaskToDailyPlanner(task3);
                     break;
                 case 4:
-                    taskRepeat = "ежемесячно";
-                    Tasks task4 = new TasksMonthly(taskHeading, taskDescription, taskType, taskRepeat);
+                    taskRepeat = Repeat.monthly;
+                    Task task4 = new TaskMonthly(taskHeading, taskDescription, taskType, taskRepeat, date);
                     dailyPlanner.addTaskToDailyPlanner(task4);
                     break;
                 case 5:
-                    taskRepeat = "ежегодно";
-                    Tasks task5 = new TasksYearly(taskHeading, taskDescription, taskType, taskRepeat);
+                    taskRepeat = Repeat.yearly;
+                    Task task5 = new TaskYearly(taskHeading, taskDescription, taskType, taskRepeat, date);
                     dailyPlanner.addTaskToDailyPlanner(task5);
                     break;
                 case 0:
@@ -83,14 +89,11 @@ public class Main {
         dailyPlanner.removeTaskToDailyPlanner(number);
     }
 
-    private static void findTaskToDate(Scanner scanner, DailyPlanner dailyPlanner) throws InterruptedException {
-        System.out.print("Сейчас нужно будет ввести дату. Сначала укажите год: ");
-        int year = scanner.nextInt();
-        System.out.print("Теперь укажите месяц: ");
-        int month = scanner.nextInt();
-        System.out.print("И укажите интересующий день: ");
-        int day = scanner.nextInt();
-        LocalDate date = LocalDate.of(year, month, day);
+    private static void findTaskToDate(Scanner scanner, DailyPlanner dailyPlanner) {
+        System.out.print("Введите дату в формате yyyy-mm-dd: ");
+        LocalDate findDate = LocalDate.parse(scanner.next());
+        LocalTime timeFind = LocalTime.of(23, 59);
+        LocalDateTime date = LocalDateTime.of(findDate, timeFind);
         dailyPlanner.findTheNextTask(date);
     }
 
@@ -119,7 +122,7 @@ public class Main {
         System.out.println(" 0. Выход ");
     }
 
-    public static void main(String[] args) throws EmptyStringValueException, InterruptedException {
+    public static void main(String[] args) throws EmptyStringValueException {
 
         DailyPlanner dailyPlanner = new DailyPlanner();
 
