@@ -41,27 +41,32 @@ public class Main {
             switch (menuTaskRepeat) {
                 case 1:
                     taskRepeat = Repeat.once;
-                    Task task = new TaskSingle(taskHeading, taskDescription, taskType, taskRepeat, date);
+                    Task task = new TaskSingle(taskHeading, taskDescription, taskType, date);
+                    task.setRepeat(taskRepeat);
                     dailyPlanner.addTaskToDailyPlanner(task);
                     break;
                 case 2:
                     taskRepeat = Repeat.daily;
-                    Task task2 = new TaskDaily(taskHeading, taskDescription, taskType, taskRepeat, date);
+                    Task task2 = new TaskDaily(taskHeading, taskDescription, taskType, date);
+                    task2.setRepeat(taskRepeat);
                     dailyPlanner.addTaskToDailyPlanner(task2);
                     break;
                 case 3:
                     taskRepeat = Repeat.weekly;
-                    Task task3 = new TaskWeekly(taskHeading, taskDescription, taskType, taskRepeat, date);
+                    Task task3 = new TaskWeekly(taskHeading, taskDescription, taskType, date);
+                    task3.setRepeat(taskRepeat);
                     dailyPlanner.addTaskToDailyPlanner(task3);
                     break;
                 case 4:
                     taskRepeat = Repeat.monthly;
-                    Task task4 = new TaskMonthly(taskHeading, taskDescription, taskType, taskRepeat, date);
+                    Task task4 = new TaskMonthly(taskHeading, taskDescription, taskType, date);
+                    task4.setRepeat(taskRepeat);
                     dailyPlanner.addTaskToDailyPlanner(task4);
                     break;
                 case 5:
                     taskRepeat = Repeat.yearly;
-                    Task task5 = new TaskYearly(taskHeading, taskDescription, taskType, taskRepeat, date);
+                    Task task5 = new TaskYearly(taskHeading, taskDescription, taskType,date);
+                    task5.setRepeat(taskRepeat);
                     dailyPlanner.addTaskToDailyPlanner(task5);
                     break;
                 case 0:

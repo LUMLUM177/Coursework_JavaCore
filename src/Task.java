@@ -13,12 +13,11 @@ public abstract class Task {
     private Repeat repeat;
     private LocalDateTime dayCreation;
 
-    public Task(String heading, String description, TypeTask typeTask, Repeat repeat, LocalDateTime date) throws EmptyStringValueException {
+    public Task(String heading, String description, TypeTask typeTask, LocalDateTime date) throws EmptyStringValueException {
         id = COUNTER.getAndIncrement();
         setHeading(heading);
         this.description = description;
         setTypeTask(typeTask);
-        setRepeat(repeat);
         this.dayCreation = date;
     }
 
