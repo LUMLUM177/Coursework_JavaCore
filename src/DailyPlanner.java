@@ -12,40 +12,29 @@ public class DailyPlanner {
         return dailyPlanner;
     }
 
+
     public void addTaskToDailyPlanner(Task task) {
         if (dailyPlanner.containsKey(task.getId())) {
-            for (Map.Entry<Integer, Task> entry : dailyPlanner.entrySet()) {
-                if (entry.getKey().equals(task.getId())) {
-                    throw new RuntimeException("Задание с этим ключом уже есть в коллекции!");
-                }
-            }
+            throw new RuntimeException("Задание с этим ключом уже есть в коллекции!");
         }
         dailyPlanner.put(task.getId(), task);
     }
 
     public void removeTaskToDailyPlanner(Integer key) {
         if (dailyPlanner.containsKey(key)) {
-            for (Map.Entry<Integer, Task> entry : dailyPlanner.entrySet()) {
-                if (entry.getKey().equals(key)) {
-                    System.out.println("Задача с номером " + key + " успешно удалена.");
-                    deletedTasks.put(entry.getKey(), entry.getValue());
-                    dailyPlanner.remove(entry.getKey());
-                    return;
-                }
-            }
+            System.out.println("Задача с номером " + key + " успешно удалена.");
+            deletedTasks.put(key, getDailyPlanner().get(key));
+            dailyPlanner.remove(key, getDailyPlanner().get(key));
+            return;
         }
         System.out.println("Задача с номером " + key + " не была найдена, удаление невозможно.");
     }
 
     public void changeTaskHeadingAndDescription(Integer key, String heading, String description) throws EmptyStringValueException {
         if (dailyPlanner.containsKey(key)) {
-            for (Map.Entry<Integer, Task> entry : dailyPlanner.entrySet()) {
-                if (entry.getKey().equals(key)) {
-                    entry.getValue().setHeading(heading);
-                    entry.getValue().setDescription(description);
-                    return;
-                }
-            }
+            getDailyPlanner().get(key).setHeading(heading);
+            getDailyPlanner().get(key).setDescription(description);
+            return;
         }
         System.out.println("Задача с номером " + key + " не была найдена, изменение невозможно.");
     }
